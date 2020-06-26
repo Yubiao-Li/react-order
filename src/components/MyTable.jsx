@@ -9,29 +9,22 @@ import AddFrame from './AddFrame';
 
 function MyTable(props) {
   const [bookList, setBookList] = useState([]);
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  });
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchColumn] = useState('');
   const [editingKey, setEditingKey] = useState('');
 
-  const fetch = pagination => {
+  const fetch = () => {
     setLoading(true);
-    axios.get(`/api/v1/book/list?currentPage=${pagination.current}&pageSize=${pagination.pageSize}`).then(res => {
-      setBookList(res.data.data.data);
-      setPagination({
-        ...pagination,
-        total: res.data.data.total,
-      });
+    axios.get(`/api/findAll`).then(res => {
+      console.log(res)
+      setBookList(res.data);
       setLoading(false);
       console.log(res.data);
     });
   };
   useEffect(() => {
-    fetch(pagination);
+    fetch();
   }, []);
 
   let searchInput = null;
@@ -140,38 +133,35 @@ function MyTable(props) {
     {
       title: 'id',
       dataIndex: 'id',
-      key: 'id',
     },
     {
-      title: '书名',
+      title: '商品名',
+      dataIndex: 'goodsName',
+      ...getColumnSearchProps('goodsName'),
+      editable: true,
+    },
+    {
+      title: '地址',
+      dataIndex: 'address',
+      editable: true,
+    },
+    {
+      title: '员工',
       dataIndex: 'name',
-      key: 'name',
-      ...getColumnSearchProps('name'),
       editable: true,
     },
     {
-      title: '图片',
-      dataIndex: 'image',
-      key: 'image',
+      title: '电话',
+      dataIndex: 'phone',
       editable: true,
     },
     {
-      title: '作者',
-      dataIndex: 'author',
-      key: 'author',
-      editable: true,
+      title: '数量',
+      dataIndex: 'count',
     },
     {
-      title: '价格',
-      dataIndex: 'price',
-      key: 'price',
-      editable: true,
-    },
-    {
-      title: '发布日期',
-      dataIndex: 'created_at',
-      key: 'created_at',
-      render: text => text.split('T')[0],
+      title: '金额',
+      dataIndex: 'money',
     },
     {
       title: '操作',
@@ -233,12 +223,11 @@ function MyTable(props) {
 
   return (
     <>
-      <AddFrame fetch={()=>fetch(pagination)} />
+      <AddFrame fetch={fetch} />
       <Form form={form} component={false}>
         <Table
           dataSource={bookList}
           rowKey={record => record.id}
-          pagination={pagination}
           columns={mergedColumns}
           loading={loading}
           components={{
