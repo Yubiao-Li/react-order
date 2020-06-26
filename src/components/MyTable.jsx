@@ -94,9 +94,10 @@ function MyTable(props) {
   const save = async key => {
     try {
       const row = await form.validateFields();
+      row.id = key
       const newData = [...bookList];
       const index = newData.findIndex(item => key === item.id);
-      axios.post(`/api//v1/book/update/${key}`, row).then(res => {
+      axios.put(`/api/update`, row).then(res => {
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
         setBookList(newData);
@@ -158,10 +159,12 @@ function MyTable(props) {
     {
       title: '数量',
       dataIndex: 'count',
+      editable:true,
     },
     {
       title: '金额',
       dataIndex: 'money',
+      editable:true
     },
     {
       title: '操作',
