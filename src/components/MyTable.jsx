@@ -122,7 +122,7 @@ function MyTable(props) {
 
   // 删
   const deleteBook = key => {
-    axios.post(`/api/delete/${key}`).then(() => {
+    axios.delete(`/api/delete/${key}`).then(() => {
       const newData = [...bookList];
       const index = newData.findIndex(item => key === item.id);
       newData.splice(index, 1);
