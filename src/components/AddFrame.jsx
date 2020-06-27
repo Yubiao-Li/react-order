@@ -22,7 +22,7 @@ function AddFrame(props) {
 
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary" onClick={showModal}  className='add'>
         新增
       </Button>
       <Modal title="新增" visible={visible} onOk={handleOk} confirmLoading={confirmLoading} onCancel={handleCancel} footer={null}>

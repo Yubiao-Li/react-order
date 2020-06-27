@@ -6,6 +6,8 @@ import React, { useState, useEffect } from 'react';
 
 import EditableCell from './EditableCell';
 import AddFrame from './AddFrame';
+import SearchCell from './SearchCell';
+import '../App.css';
 
 function MyTable(props) {
   const [bookList, setBookList] = useState([]);
@@ -122,7 +124,7 @@ function MyTable(props) {
 
   // 删
   const deleteBook = key => {
-    axios.delete(`/api/delete/${key}`).then(() => {
+    axios.post(`/api/v1/book/delete/${key}`).then(() => {
       const newData = [...bookList];
       const index = newData.findIndex(item => key === item.id);
       newData.splice(index, 1);
@@ -227,6 +229,7 @@ function MyTable(props) {
   return (
     <>
       <AddFrame fetch={fetch} />
+      <SearchCell setBookList={setBookList} fetch={fetch}/>
       <Form form={form} component={false}>
         <Table
           dataSource={bookList}
