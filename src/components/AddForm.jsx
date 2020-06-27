@@ -23,7 +23,7 @@ const AddForm = ({ setVisiable,submit }) => {
   const onFinish = values => {
     values.pubdata = moment(values.pubdata).format(dateFormat);
     console.log('Success:', values);
-    Axios.post('/api/v1/book/add/', values).then(res => {
+    Axios.post('/api/save/', values).then(res => {
       setVisiable(false);
       submit()
     });
@@ -37,7 +37,33 @@ const AddForm = ({ setVisiable,submit }) => {
   return (
     <Form {...layout} name="basic" initialValues={{}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <Form.Item
-        label="书名"
+        label="商品名称"
+        name="goodsName"
+        rules={[
+          {
+            required: true,
+            message: 'Please input name!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="收货地址"
+        name="address"
+        rules={[
+          {
+            required: true,
+            message: 'Please input address!',
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        label="顾客名"
         name="name"
         rules={[
           {
@@ -50,12 +76,12 @@ const AddForm = ({ setVisiable,submit }) => {
       </Form.Item>
 
       <Form.Item
-        label="图片"
-        name="image"
+        label="联系手机号"
+        name="phone"
         rules={[
           {
             required: true,
-            message: 'Please input image!',
+            message: 'Please input phone!',
           },
         ]}
       >
@@ -63,25 +89,12 @@ const AddForm = ({ setVisiable,submit }) => {
       </Form.Item>
 
       <Form.Item
-        label="作者"
-        name="author"
+        label="数量"
+        name="count"
         rules={[
           {
             required: true,
-            message: 'Please input author!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="价格"
-        name="price"
-        rules={[
-          {
-            required: true,
-            message: 'Please input price!',
+            message: 'Please input count!',
           },
         ]}
       >
@@ -89,6 +102,19 @@ const AddForm = ({ setVisiable,submit }) => {
       </Form.Item>
 
       <Form.Item
+        label="金额"
+        name="money"
+        rules={[
+          {
+            required: true,
+            message: 'Please input count!',
+          },
+        ]}
+      >
+        <InputNumber />
+      </Form.Item>
+
+      {/*<Form.Item
         label="发布日期"
         name="pubdata"
         rules={[
@@ -99,7 +125,7 @@ const AddForm = ({ setVisiable,submit }) => {
         ]}
       >
         <DatePicker format={dateFormat} />
-      </Form.Item>
+      </Form.Item>*/}
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
           Submit
